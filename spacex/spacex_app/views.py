@@ -1,14 +1,25 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from .helper_functions import api_request
+import operator
 
 def home(request):
     return HttpResponse("You're at the home page!")
 
 def launch(request):
-    return HttpResponse("You're at the launch page!")
+    api_url = "https://api.spacexdata.com/v4/launches"
+    data = api_request(api_url)
+    data.reverse()
+    return JsonResponse(data, safe=False)
 
 def crew(request):
-    return HttpResponse("You're at the crew page!")
+    api_url = "https://api.spacexdata.com/v4/crew"
+    data = api_request(api_url)
+    data.sort(key=operator.itemgetter("name"))
+    return JsonResponse(data, safe=False)
 
 def payload(request):
-    return HttpResponse("You're at the payload page!")
+    api_url = "https://api.spacexdata.com/v4/payloads"
+    data = api_request(api_url)
+    data.sort(key=operator.itemgetter("name"))
+    return JsonResponse(data, safe=False)
