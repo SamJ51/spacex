@@ -15,6 +15,7 @@
             background-color: #111;
             min-height: 100vh;
             padding: 1rem;
+            font-family: Arial, Arial, Helvetica, sans-serif;
         }
 
         nav a {
@@ -55,7 +56,7 @@
     </nav>
 
     <main>
-        {% block content %}{% endblock %}
+        {% block extra_css %}{% endblock %}{% block content %}{% endblock %}
     </main>
 </body>
 
