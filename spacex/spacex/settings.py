@@ -55,7 +55,7 @@ ROOT_URLCONF = 'spacex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "spacex_app/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

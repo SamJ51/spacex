@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SpaceX Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+        }
+
+        nav {
+            width: 120px;
+            color: #fff;
+            background-color: #111;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        nav a {
+            display: block;
+            color: #fff;
+            background-color: #111;
+            text-decoration: none;
+            margin: 0 -1rem;
+            padding: 8px 1rem;
+        }
+
+        nav a.active {
+            background-color: white;
+            color: #111;
+        }
+
+        nav a:hover {
+            background-color: rgb(0, 221, 255);
+            color: #111;
+        }
+
+        main {
+            flex: 1;
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h2>SpaceX Dashboard</h2>
+        <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+        <a href="{% url 'launch' %}"
+            class="{% if request.resolver_match.url_name == 'launch' %}active{% endif %}">Launches</a>
+        <a href="{% url 'crew' %}" class="{% if request.resolver_match.url_name == 'crew' %}active{% endif %}">Crew</a>
+        <a href="{% url 'payload' %}"
+            class="{% if request.resolver_match.url_name == 'payload' %}active{% endif %}">Payloads</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

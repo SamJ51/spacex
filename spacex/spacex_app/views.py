@@ -4,22 +4,22 @@ from .helper_functions import api_request
 import operator
 
 def home(request):
-    return HttpResponse("You're at the home page!")
+    return render(request, "home.html")
 
 def launch(request):
     api_url = "https://api.spacexdata.com/v4/launches"
-    data = api_request(api_url)
-    data.reverse()
-    return JsonResponse(data, safe=False)
+    launches = api_request(api_url)
+    launches.reverse()
+    return render(request, "launch.html", {"launches": launches})
 
 def crew(request):
     api_url = "https://api.spacexdata.com/v4/crew"
-    data = api_request(api_url)
-    data.sort(key=operator.itemgetter("name"))
-    return JsonResponse(data, safe=False)
+    crew_members = api_request(api_url)
+    crew_members.sort(key=operator.itemgetter("name"))
+    return render(request, "crew.html", {"crew_members": crew_members})
 
 def payload(request):
     api_url = "https://api.spacexdata.com/v4/payloads"
-    data = api_request(api_url)
-    data.sort(key=operator.itemgetter("name"))
-    return JsonResponse(data, safe=False)
+    payloads = api_request(api_url)
+    payloads.sort(key=operator.itemgetter("name"))
+    return render(request, "payload.html", {"payloads": payloads})

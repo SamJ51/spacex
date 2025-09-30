@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+  <header>
+    <h1>SpaceX Payloads</h1>
+  </header>
+
+  {% for p in payloads %}
+    <article class="payload">
+      <h2>{{ p.name|default:"Unnamed payload" }}</h2>
+
+      <!-- High-level summary -->
+      <ul>
+        <li><strong>Type:</strong> {{ p.type|default:"—" }}</li>
+        <li><strong>Reused:</strong> {{ p.reused|yesno:"Yes,No,Unknown" }}</li>
+        <li><strong>Customers:</strong> {% if p.customers %}{{ p.customers|join:", " }}{% else %}—{% endif %}</li>
+        <li><strong>Manufacturers:</strong> {% if p.manufacturers %}{{ p.manufacturers|join:", " }}{% else %}—{% endif %}</li>
+        <li><strong>Nationalities:</strong> {% if p.nationalities %}{{ p.nationalities|join:", " }}{% else %}—{% endif %}</li>
+        <li><strong>NORAD IDs:</strong> {% if p.norad_ids %}{{ p.norad_ids|join:", " }}{% else %}—{% endif %}</li>
+      </ul>
+
+      <!-- Mass -->
+      <h3>Mass</h3>
+      <ul>
+        <li><strong>Mass (kg):</strong> {{ p.mass_kg|default:"—" }}</li>
+        <li><strong>Mass (lbs):</strong> {{ p.mass_lbs|default:"—" }}</li>
+      </ul>
+
+      <!-- Orbit -->
+      <h3>Orbit</h3>
+      <ul>
+        <li><strong>Orbit:</strong> {{ p.orbit|default:"—" }}</li>
+        <li><strong>Reference System:</strong> {{ p.reference_system|default:"—" }}</li>
+        <li><strong>Regime:</strong> {{ p.regime|default:"—" }}</li>
+        <li><strong>Longitude:</strong> {{ p.longitude|default:"—" }}</li>
+      </ul>
+
+      <!-- Orbital Parameters -->
+      <h3>Orbital Parameters</h3>
+      <table border="1" cellpadding="6" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Semi-major Axis (km)</th>
+            <th>Eccentricity</th>
+            <th>Periapsis (km)</th>
+            <th>Apoapsis (km)</th>
+            <th>Inclination (°)</th>
+            <th>Period (min)</th>
+            <th>Lifespan (years)</th>
+            <th>Epoch (UTC)</th>
+            <th>Mean Motion</th>
+            <th>RAAN (°)</th>
+            <th>Arg. of Pericenter (°)</th>
+            <th>Mean Anomaly (°)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ p.semi_major_axis_km|default:"—" }}</td>
+            <td>{{ p.eccentricity|default:"—" }}</td>
+            <td>{{ p.periapsis_km|default:"—" }}</td>
+            <td>{{ p.apoapsis_km|default:"—" }}</td>
+            <td>{{ p.inclination_deg|default:"—" }}</td>
+            <td>{{ p.period_min|default:"—" }}</td>
+            <td>{{ p.lifespan_years|default:"—" }}</td>
+            <td>{{ p.epoch|slice:":19"|default:"—" }}</td>
+            <td>{{ p.mean_motion|default:"—" }}</td>
+            <td>{{ p.raan|default:"—" }}</td>
+            <td>{{ p.arg_of_pericenter|default:"—" }}</td>
+            <td>{{ p.mean_anomaly|default:"—" }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Dragon Section -->
+      {% if p.dragon %}
+        <h3>Dragon</h3>
+        {% with d=p.dragon %}
+          <ul>
+            <li><strong>Capsule ID:</strong> {{ d.capsule|default:"—" }}</li>
+            <li><strong>Flight Time (sec):</strong> {{ d.flight_time_sec|default:"—" }}</li>
+            <li><strong>Mass Returned (kg):</strong> {{ d.mass_returned_kg|default:"—" }}</li>
+            <li><strong>Mass Returned (lbs):</strong> {{ d.mass_returned_lbs|default:"—" }}</li>
+            <li><strong>Manifest:</strong> {% if d.manifest %}<a href="{{ d.manifest }}" target="_blank" rel="noopener">Open</a>{% else %}—{% endif %}</li>
+            <li><strong>Water Landing:</strong> {{ d.water_landing|yesno:"Yes,No,Unknown" }}</li>
+            <li><strong>Land Landing:</strong> {{ d.land_landing|yesno:"Yes,No,Unknown" }}</li>
+          </ul>
+        {% endwith %}
+      {% endif %}
+
+      <!-- Entities / IDs -->
+      <h3>Entities</h3>
+      <ul>
+        <li><strong>Payload ID:</strong> {{ p.id|default:"—" }}</li>
+        <li><strong>Launch ID:</strong> {{ p.launch|default:"—" }}</li>
+      </ul>
+
+      <hr />
+    </article>
+  {% empty %}
+    <p>No payload data available.</p>
+  {% endfor %}
+</body>
+</html>
+{% endblock %}

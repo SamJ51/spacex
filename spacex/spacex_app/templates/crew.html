@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header>
+        <h1>SpaceX Crew</h1>
+    </header>
+
+    {% for m in crew_members %}
+    <article class="crew">
+        <h2>{{ m.name|default:"Unnamed crew member" }}</h2>
+
+        <!-- High-level summary -->
+        <ul>
+            <li><strong>Agency:</strong> {{ m.agency|default:"—" }}</li>
+            <li><strong>Status:</strong> {{ m.status|default:"—" }}</li>
+            <li>
+                <strong>Active:</strong>
+                {% if m.status %}
+                {% if m.status|lower == "active" %}Yes
+                {% elif m.status|lower == "retired" or m.status|lower == "inactive" %}No
+                {% else %}Unknown
+                {% endif %}
+                {% else %}Unknown
+                {% endif %}
+            </li>
+        </ul>
+
+        <!-- Photo -->
+        {% if m.image %}
+        <div class="portrait" style="margin:10px 0;">
+            <img src="{{ m.image }}" alt="{{ m.name }} portrait" style="max-height:160px;" />
+        </div>
+        {% endif %}
+
+        <!-- Links -->
+        {% if m.wikipedia %}
+        <h3>Links</h3>
+        <ul>
+            <li><a href="{{ m.wikipedia }}" target="_blank" rel="noopener">Wikipedia</a></li>
+        </ul>
+        {% endif %}
+
+        <!-- Entities / IDs -->
+        <h3>Entities</h3>
+        <ul>
+            <li><strong>Crew ID:</strong> {{ m.id|default:"—" }}</li>
+            <li>
+                <strong>Launch IDs:</strong>
+                {% if m.launches %}{{ m.launches|join:", " }}{% else %}—{% endif %}
+            </li>
+        </ul>
+
+        <hr />
+    </article>
+    {% empty %}
+    <p>No crew data available.</p>
+    {% endfor %}
+</body>
+{% endblock %}
