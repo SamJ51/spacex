@@ -2,8 +2,8 @@
 {% block extra_css %}
 <style>
     img.portrait {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
         border-radius: 50px;
         display: block;
         object-fit: cover
@@ -15,6 +15,12 @@
         background-color: #eeeeee;
         border-radius: 50px;
         margin: 20px;
+        max-width: 250px;
+        opacity: 100%;
+    }
+        
+    .card-title {
+        font-size: 22px;
     }
 
     .class-structure {
@@ -48,6 +54,24 @@
     .heading {
         text-align: center;
         font-size: 40px;
+        color: #111;
+    }
+
+    .kv {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+    }
+
+    .kv p {
+        margin: 0;
+        font-size: 9px;
+    }
+
+    .kv strong {
+        display: block;
+        font-size: 12px;
+        opacity: 0.7;
     }
 </style>
 {% endblock %}
@@ -76,10 +100,13 @@
             <p><strong>Status:</strong> {{ m.status|default:"—" }}</p>
 
             <!-- Entities / IDs -->
-            <p><strong>Crew ID:</strong> {{ m.id|default:"—" }}</p>
-            <p><strong>Launch IDs:</strong>
-                {% if m.launches %}{{ m.launches|join:", " }}{% else %}—{% endif %}
-            </p>
+            <div class="kv">
+                <p><strong>Crew ID:</strong> {{ m.id|default:"—" }}</p>
+                <p><strong>Launch IDs:</strong>
+                    {% if m.launches %}{{ m.launches|join:", " }}{% else %}—{% endif %}
+                </p>
+            </div>
+
         </div>
     </div>
     {% empty %}

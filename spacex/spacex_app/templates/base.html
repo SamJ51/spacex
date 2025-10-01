@@ -13,9 +13,15 @@
             width: 120px;
             color: #fff;
             background-color: #111;
-            min-height: 100vh;
             padding: 1rem;
             font-family: Arial, Arial, Helvetica, sans-serif;
+            border-radius: 0px 50px 50px 0px;
+            height: 250px;
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            opacity: 80%;
         }
 
         nav a {
@@ -23,8 +29,10 @@
             color: #fff;
             background-color: #111;
             text-decoration: none;
-            margin: 0 -1rem;
-            padding: 8px 1rem;
+            margin: 0 0rem;
+            padding: 8px 2rem;
+            border-radius: 50px;
+            margin-bottom: 2px;
         }
 
         nav a.active {
@@ -40,6 +48,7 @@
         main {
             flex: 1;
             padding: 1rem;
+            margin-left: 160px;
         }
     </style>
 </head>

@@ -2,8 +2,11 @@ services:
   django-web:
     build: .
     container_name: django-docker
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DEBUG: ${DEBUG}

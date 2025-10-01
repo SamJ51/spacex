@@ -1,106 +1,185 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<style>
+  .card {
+    display: inline-block;
+    padding: 30px;
+    background-color: #eeeeee;
+    border-radius: 50px;
+    margin: 20px;
+    max-width: 230px;
+  }
+
+  .class-structure {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .heading {
+    text-align: center;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .card-title,
+  p,
+  h2,
+  h3,
+  li,
+  dt,
+  dd {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .meta-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 16px 0;
+  }
+
+  .meta-list li {
+    margin: 6px 0;
+  }
+
+  .btn-link {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #111;
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 8px 0 12px 0;
+  }
+
+  .btn-link:hover {
+    opacity: 0.7;
+  }
+
+  details {
+    margin-top: 10px;
+    background: #f6f6f6;
+    border-radius: 16px;
+    padding: 10px 14px;
+  }
+
+  details summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  .kv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+  }
+
+  .kv p {
+    margin: 0;
+    font-size: 9px;
+  }
+
+  .kv strong {
+    display: block;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  li {
+    font-size: 14px;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<body>
-  <header>
-    <h1>SpaceX Payloads</h1>
-  </header>
+<h1 class="heading">SpaceX Payloads</h1>
 
+<div class="class-structure">
   {% for p in payloads %}
-    <article class="payload">
-      <h2>{{ p.name|default:"Unnamed payload" }}</h2>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">{{ p.name|default:"Unnamed payload" }}</h2>
 
-      <!-- High-level summary -->
-      <ul>
+      <!-- Quick facts -->
+      <ul class="meta-list">
         <li><strong>Type:</strong> {{ p.type|default:"—" }}</li>
         <li><strong>Reused:</strong> {{ p.reused|yesno:"Yes,No,Unknown" }}</li>
         <li><strong>Customers:</strong> {% if p.customers %}{{ p.customers|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Manufacturers:</strong> {% if p.manufacturers %}{{ p.manufacturers|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Nationalities:</strong> {% if p.nationalities %}{{ p.nationalities|join:", " }}{% else %}—{% endif %}</li>
+        <li><strong>Manufacturers:</strong> {% if p.manufacturers %}{{ p.manufacturers|join:", " }}{% else %}—{% endif%}</li>
+        <li><strong>Nationalities:</strong> {% if p.nationalities %}{{ p.nationalities|join:", " }}{% else %}—{% endif%}</li>
         <li><strong>NORAD IDs:</strong> {% if p.norad_ids %}{{ p.norad_ids|join:", " }}{% else %}—{% endif %}</li>
       </ul>
 
       <!-- Mass -->
-      <h3>Mass</h3>
-      <ul>
-        <li><strong>Mass (kg):</strong> {{ p.mass_kg|default:"—" }}</li>
-        <li><strong>Mass (lbs):</strong> {{ p.mass_lbs|default:"—" }}</li>
-      </ul>
+      <div class="kv" aria-label="Mass">
+        <p><strong>Mass (kg)</strong>{{ p.mass_kg|default:"—" }}</p>
+        <p><strong>Mass (lbs)</strong>{{ p.mass_lbs|default:"—" }}</p>
+      </div>
 
       <!-- Orbit -->
-      <h3>Orbit</h3>
-      <ul>
-        <li><strong>Orbit:</strong> {{ p.orbit|default:"—" }}</li>
-        <li><strong>Reference System:</strong> {{ p.reference_system|default:"—" }}</li>
-        <li><strong>Regime:</strong> {{ p.regime|default:"—" }}</li>
-        <li><strong>Longitude:</strong> {{ p.longitude|default:"—" }}</li>
-      </ul>
+      <div class="kv" style="margin-top:10px" aria-label="Orbit">
+        <p><strong>Orbit</strong>{{ p.orbit|default:"—" }}</p>
+        <p><strong>Ref. System</strong>{{ p.reference_system|default:"—" }}</p>
+        <p><strong>Regime</strong>{{ p.regime|default:"—" }}</p>
+        <p><strong>Longitude</strong>{{ p.longitude|default:"—" }}</p>
+      </div>
 
       <!-- Orbital Parameters -->
-      <h3>Orbital Parameters</h3>
-      <table border="1" cellpadding="6" cellspacing="0">
-        <thead>
-          <tr>
-            <th>Semi-major Axis (km)</th>
-            <th>Eccentricity</th>
-            <th>Periapsis (km)</th>
-            <th>Apoapsis (km)</th>
-            <th>Inclination (°)</th>
-            <th>Period (min)</th>
-            <th>Lifespan (years)</th>
-            <th>Epoch (UTC)</th>
-            <th>Mean Motion</th>
-            <th>RAAN (°)</th>
-            <th>Arg. of Pericenter (°)</th>
-            <th>Mean Anomaly (°)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ p.semi_major_axis_km|default:"—" }}</td>
-            <td>{{ p.eccentricity|default:"—" }}</td>
-            <td>{{ p.periapsis_km|default:"—" }}</td>
-            <td>{{ p.apoapsis_km|default:"—" }}</td>
-            <td>{{ p.inclination_deg|default:"—" }}</td>
-            <td>{{ p.period_min|default:"—" }}</td>
-            <td>{{ p.lifespan_years|default:"—" }}</td>
-            <td>{{ p.epoch|slice:":19"|default:"—" }}</td>
-            <td>{{ p.mean_motion|default:"—" }}</td>
-            <td>{{ p.raan|default:"—" }}</td>
-            <td>{{ p.arg_of_pericenter|default:"—" }}</td>
-            <td>{{ p.mean_anomaly|default:"—" }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <details>
+        <summary>Orbital parameters</summary>
+        <div class="kv" aria-label="Orbital parameters">
+          <p><strong>Semi-major Axis (km)</strong>{{ p.semi_major_axis_km|default:"—" }}</p>
+          <p><strong>Eccentricity</strong>{{ p.eccentricity|default:"—" }}</p>
+          <p><strong>Periapsis (km)</strong>{{ p.periapsis_km|default:"—" }}</p>
+          <p><strong>Apoapsis (km)</strong>{{ p.apoapsis_km|default:"—" }}</p>
+          <p><strong>Inclination (°)</strong>{{ p.inclination_deg|default:"—" }}</p>
+          <p><strong>Period (min)</strong>{{ p.period_min|default:"—" }}</p>
+          <p><strong>Lifespan (years)</strong>{{ p.lifespan_years|default:"—" }}</p>
+          <p><strong>Epoch (UTC)</strong>{{ p.epoch|slice:":19"|default:"—" }}</p>
+          <p><strong>Mean Motion</strong>{{ p.mean_motion|default:"—" }}</p>
+          <p><strong>RAAN (°)</strong>{{ p.raan|default:"—" }}</p>
+          <p><strong>Arg. of Pericenter (°)</strong>{{ p.arg_of_pericenter|default:"—" }}</p>
+          <p><strong>Mean Anomaly (°)</strong>{{ p.mean_anomaly|default:"—" }}</p>
+        </div>
+      </details>
 
-      <!-- Dragon Section -->
+      <!-- Dragon subsection -->
       {% if p.dragon %}
-        <h3>Dragon</h3>
-        {% with d=p.dragon %}
-          <ul>
-            <li><strong>Capsule ID:</strong> {{ d.capsule|default:"—" }}</li>
-            <li><strong>Flight Time (sec):</strong> {{ d.flight_time_sec|default:"—" }}</li>
-            <li><strong>Mass Returned (kg):</strong> {{ d.mass_returned_kg|default:"—" }}</li>
-            <li><strong>Mass Returned (lbs):</strong> {{ d.mass_returned_lbs|default:"—" }}</li>
-            <li><strong>Manifest:</strong> {% if d.manifest %}<a href="{{ d.manifest }}" target="_blank" rel="noopener">Open</a>{% else %}—{% endif %}</li>
-            <li><strong>Water Landing:</strong> {{ d.water_landing|yesno:"Yes,No,Unknown" }}</li>
-            <li><strong>Land Landing:</strong> {{ d.land_landing|yesno:"Yes,No,Unknown" }}</li>
-          </ul>
-        {% endwith %}
+      {% with d=p.dragon %}
+      <details>
+        <summary>Dragon</summary>
+        <ul class="meta-list" style="margin-top:6px">
+          <li><strong>Capsule ID:</strong> {{ d.capsule|default:"—" }}</li>
+          <li><strong>Flight Time (sec):</strong> {{ d.flight_time_sec|default:"—" }}</li>
+          <li><strong>Mass Returned (kg):</strong> {{ d.mass_returned_kg|default:"—" }}</li>
+          <li><strong>Mass Returned (lbs):</strong> {{ d.mass_returned_lbs|default:"—" }}</li>
+          <li>
+            <strong>Manifest:</strong>
+            {% if d.manifest %}
+            <a class="btn-link" href="{{ d.manifest }}" target="_blank" rel="noopener">Open manifest</a>
+            {% else %}—{% endif %}
+          </li>
+          <li><strong>Water Landing:</strong> {{ d.water_landing|yesno:"Yes,No,Unknown" }}</li>
+          <li><strong>Land Landing:</strong> {{ d.land_landing|yesno:"Yes,No,Unknown" }}</li>
+        </ul>
+      </details>
+
+      {% endwith %}
       {% endif %}
 
       <!-- Entities / IDs -->
-      <h3>Entities</h3>
-      <ul>
-        <li><strong>Payload ID:</strong> {{ p.id|default:"—" }}</li>
-        <li><strong>Launch ID:</strong> {{ p.launch|default:"—" }}</li>
-      </ul>
-
-      <hr />
-    </article>
+      <div class="kv" aria-label="Entities / IDs" style="margin-top:10px">
+        <p><strong>Payload ID</strong>{{ p.id|default:"—" }}</p>
+        <p><strong>Launch ID</strong>{{ p.launch|default:"—" }}</p>
+      </div>
+    </div>
+  </div>
   {% empty %}
-    <p>No payload data available.</p>
+  <p>No payload data available.</p>
   {% endfor %}
-</body>
-</html>
+</div>
 {% endblock %}
