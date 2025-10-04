@@ -1,100 +1,5 @@
 {% extends "base.html" %}
 
-{% block extra_css %}
-<style>
-  .card {
-    display: inline-block;
-    padding: 30px;
-    background-color: #eeeeee;
-    border-radius: 50px;
-    margin: 20px;
-    max-width: 230px;
-  }
-
-  .class-structure {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .heading {
-    text-align: center;
-    font-size: 40px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .card-title,
-  p,
-  h2,
-  h3,
-  li,
-  dt,
-  dd {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .meta-list {
-    list-style: none;
-    padding-left: 0;
-    margin: 0 0 16px 0;
-  }
-
-  .meta-list li {
-    margin: 6px 0;
-  }
-
-  .btn-link {
-    display: inline-block;
-    padding: 8px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    background: #111;
-    color: #fff;
-    font-family: Helvetica, Arial, sans-serif;
-    margin: 8px 0 12px 0;
-  }
-
-  .btn-link:hover {
-    opacity: 0.7;
-  }
-
-  details {
-    margin-top: 10px;
-    background: #f6f6f6;
-    border-radius: 16px;
-    padding: 10px 14px;
-  }
-
-  details summary {
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 6px;
-  }
-
-  .kv {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px 12px;
-  }
-
-  .kv p {
-    margin: 0;
-    font-size: 9px;
-  }
-
-  .kv strong {
-    display: block;
-    font-size: 12px;
-    opacity: 0.7;
-  }
-
-  li {
-    font-size: 14px;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
 <h1 class="heading">SpaceX Payloads</h1>
 
@@ -121,7 +26,7 @@
       </div>
 
       <!-- Orbit -->
-      <div class="kv" style="margin-top:10px" aria-label="Orbit">
+      <div class="kv" aria-label="Orbit">
         <p><strong>Orbit</strong>{{ p.orbit|default:"—" }}</p>
         <p><strong>Ref. System</strong>{{ p.reference_system|default:"—" }}</p>
         <p><strong>Regime</strong>{{ p.regime|default:"—" }}</p>
@@ -152,7 +57,7 @@
       {% with d=p.dragon %}
       <details>
         <summary>Dragon</summary>
-        <ul class="meta-list" style="margin-top:6px">
+        <ul class="meta-list">
           <li><strong>Capsule ID:</strong> {{ d.capsule|default:"—" }}</li>
           <li><strong>Flight Time (sec):</strong> {{ d.flight_time_sec|default:"—" }}</li>
           <li><strong>Mass Returned (kg):</strong> {{ d.mass_returned_kg|default:"—" }}</li>
@@ -167,12 +72,11 @@
           <li><strong>Land Landing:</strong> {{ d.land_landing|yesno:"Yes,No,Unknown" }}</li>
         </ul>
       </details>
-
       {% endwith %}
       {% endif %}
 
       <!-- Entities / IDs -->
-      <div class="kv" aria-label="Entities / IDs" style="margin-top:10px">
+      <div class="kv" aria-label="Entities / IDs">
         <p><strong>Payload ID</strong>{{ p.id|default:"—" }}</p>
         <p><strong>Launch ID</strong>{{ p.launch|default:"—" }}</p>
       </div>

@@ -1,72 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>SpaceX Dashboard</title>
-    <style>
-        body {
-            display: flex;
-            margin: 0;
-        }
-
-        nav {
-            width: 120px;
-            color: #fff;
-            background-color: #111;
-            padding: 1rem;
-            font-family: Arial, Arial, Helvetica, sans-serif;
-            border-radius: 0px 50px 50px 0px;
-            height: 250px;
-            position: fixed;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            opacity: 80%;
-        }
-
-        nav a {
-            display: block;
-            color: #fff;
-            background-color: #111;
-            text-decoration: none;
-            margin: 0 0rem;
-            padding: 8px 2rem;
-            border-radius: 50px;
-            margin-bottom: 2px;
-        }
-
-        nav a.active {
-            background-color: white;
-            color: #111;
-        }
-
-        nav a:hover {
-            background-color: rgb(0, 221, 255);
-            color: #111;
-        }
-
-        main {
-            flex: 1;
-            padding: 1rem;
-            margin-left: 160px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
 </head>
-
 <body>
     <nav>
         <h2>SpaceX Dashboard</h2>
         <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
-        <a href="{% url 'launch' %}"
-            class="{% if request.resolver_match.url_name == 'launch' %}active{% endif %}">Launches</a>
+        <a href="{% url 'launch' %}" class="{% if request.resolver_match.url_name == 'launch' %}active{% endif %}">Launches</a>
         <a href="{% url 'crew' %}" class="{% if request.resolver_match.url_name == 'crew' %}active{% endif %}">Crew</a>
-        <a href="{% url 'payload' %}"
-            class="{% if request.resolver_match.url_name == 'payload' %}active{% endif %}">Payloads</a>
+        <a href="{% url 'payload' %}" class="{% if request.resolver_match.url_name == 'payload' %}active{% endif %}">Payloads</a>
     </nav>
-
     <main>
         {% block extra_css %}{% endblock %}{% block content %}{% endblock %}
     </main>
 </body>
-
 </html>

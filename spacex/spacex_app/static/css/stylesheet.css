@@ -1,0 +1,192 @@
+html { 
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* ===== Base layout ===== */
+body {
+  display: flex;
+  margin: 0;
+}
+
+nav {
+  width: 120px;
+  color: #fff;
+  background-color: #111;
+  padding: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 0 50px 50px 0;
+  height: 250px;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  opacity: 80%;
+}
+
+nav a {
+  display: block;
+  color: #fff;
+  background-color: #111;
+  text-decoration: none;
+  margin: 0 0rem;
+  padding: 8px 2rem;
+  border-radius: 50px;
+  margin-bottom: 2px;
+}
+
+nav a.active {
+  background-color: #fff;
+  color: #111;
+}
+
+nav a:hover {
+  background-color: rgb(0, 221, 255);
+  color: #111;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  margin-left: 160px;
+}
+
+/* ===== Font ===== */
+p,
+h1,
+h2,
+h3,
+li,
+dt,
+dd {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== Shared headings ===== */
+.heading {
+  text-align: center;
+  font-size: 40px;
+  color: #111;
+}
+
+/* ===== Cards & grids ===== */
+.card {
+  display: inline-block;
+  padding: 30px;
+  background-color: #eeeeee;
+  border-radius: 50px;
+  margin: 20px;
+  max-width: 250px;
+  opacity: 100%;
+}
+
+.card:has(.meta-list) {
+  max-width: 230px;
+}
+
+.card-title {
+  font-size: 22px;
+}
+
+.class-structure {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* ===== Crew page ===== */
+img.portrait {
+  width: 250px;
+  height: 250px;
+  border-radius: 50px;
+  display: block;
+  object-fit: cover;
+}
+
+.wiki-link {
+  width: 120px;
+  color: #fff;
+  background-color: #111;
+  min-height: 100vh;
+  padding: 0.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.wiki-link:hover {
+  opacity: 50%;
+}
+
+/* ==== Key-value grid ==== */
+.kv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+}
+
+.kv p {
+  margin: 0;
+  font-size: 9px;
+}
+
+.kv strong {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ===== Payload page ===== */
+.meta-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 16px 0;
+}
+
+.meta-list li {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.btn-link {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #111;
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 8px 0 12px 0;
+}
+
+.btn-link:hover {
+  opacity: 0.7;
+}
+
+details {
+  margin-top: 10px;
+  background: #f6f6f6;
+  border-radius: 16px;
+  padding: 10px 14px;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.kv[aria-label="Orbit"],
+.kv[aria-label="Entities / IDs"] {
+  margin-top: 10px;
+}
+
+details .meta-list {
+  margin-top: 6px;
+}
+
+/* ===== Launch page ===== */
+.gallery img {
+  max-height: 120px;
+}
