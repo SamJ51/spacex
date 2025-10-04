@@ -1,169 +1,151 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <header>
-    <h1>SpaceX Launches</h1>
-  </header>
-  {% for launch in launches %}
-    <article class="launch">
-      <h2>{{ launch.name|default:"Unnamed launch" }}</h2>
+<h1 class="heading">SpaceX Launches</h1>
 
-      <!-- High-level summary -->
-      <ul>
-        <li><strong>Flight Number:</strong> {{ launch.flight_number }}</li>
+<div class="class-structure">
+  {% for launch in launches %}
+  <div class="card">
+    {% if launch.links and launch.links.patch and launch.links.patch.small %}
+      <img class="portrait" src="{{ launch.links.patch.small }}" alt="{{ launch.name|default:'Launch' }} patch" />
+    {% endif %}
+
+    <div class="card-body">
+      <h2 class="card-title">{{ launch.name|default:"Unnamed launch" }}</h2>
+
+      <!-- Quick facts -->
+      <ul class="meta-list">
+        <li><strong>Flight #:</strong> {{ launch.flight_number|default:"—" }}</li>
         <li><strong>Date (UTC):</strong> {{ launch.date_utc|slice:":10"|default:"—" }}</li>
         <li><strong>Date (Local):</strong> {{ launch.date_local|slice:":10"|default:"—" }}</li>
-        <li><strong>Date Precision:</strong> {{ launch.date_precision|default:"—" }}</li>
-        <li><strong>Timestamp (unix):</strong> {{ launch.date_unix|default:"—" }}</li>
         <li><strong>Upcoming:</strong> {{ launch.upcoming|yesno:"Yes,No,Unknown" }}</li>
         <li><strong>Success:</strong> {% if launch.upcoming %}TBD{% else %}{{ launch.success|yesno:"Yes,No,Unknown" }}{% endif %}</li>
         <li><strong>Window (s):</strong> {{ launch.window|default:"—" }}</li>
-        <li><strong>TBD:</strong> {{ launch.tdb|yesno:"Yes,No,Unknown" }}</li>
-        <li><strong>NET:</strong> {{ launch.net|yesno:"Yes,No,Unknown" }}</li>
-        <li><strong>Static Fire (UTC):</strong> {{ launch.static_fire_date_utc|slice:":10"|default:"—" }}</li>
-        <li><strong>Static Fire (unix):</strong> {{ launch.static_fire_date_unix|default:"—" }}</li>
       </ul>
 
-      <p><strong>Details:</strong> {{ launch.details|default:"No details." }}</p>
-
-      <!-- Failures -->
-      {% if launch.failures %}
-        <h3>Failures</h3>
-        <ul>
-          {% for f in launch.failures %}
-            <li>
-              <strong>Time:</strong> {{ f.time|default:"—" }},
-              <strong>Altitude:</strong> {{ f.altitude|default:"—" }},
-              <strong>Reason:</strong> {{ f.reason|default:"—" }}
-            </li>
-          {% endfor %}
-        </ul>
+      {% if launch.details %}
+        <p>{{ launch.details }}</p>
       {% endif %}
 
-      <!-- Rocket & Cores -->
-      <h3>Rocket & Core</h3>
-      <ul>
-        <li><strong>Rocket ID:</strong> {{ launch.rocket|default:"—" }}</li>
-      </ul>
+      <!-- Timing / precision -->
+      <div class="kv" aria-label="Timing">
+        <p><strong>Date Precision</strong>{{ launch.date_precision|default:"—" }}</p>
+        <p><strong>Timestamp (unix)</strong>{{ launch.date_unix|default:"—" }}</p>
+        <p><strong>TBD</strong>{{ launch.tdb|yesno:"Yes,No,Unknown" }}</p>
+        <p><strong>NET</strong>{{ launch.net|yesno:"Yes,No,Unknown" }}</p>
+        <p><strong>Static Fire (UTC)</strong>{{ launch.static_fire_date_utc|slice:":10"|default:"—" }}</p>
+        <p><strong>Static Fire (unix)</strong>{{ launch.static_fire_date_unix|default:"—" }}</p>
+      </div>
+
+      <!-- Entities / IDs -->
+      <div class="kv" aria-label="Entities / IDs">
+        <p><strong>Launch ID</strong>{{ launch.id|default:"—" }}</p>
+        <p><strong>Rocket ID</strong>{{ launch.rocket|default:"—" }}</p>
+        <p><strong>Launchpad ID</strong>{{ launch.launchpad|default:"—" }}</p>
+        <p><strong>Payload IDs</strong>{% if launch.payloads %}{{ launch.payloads|join:", " }}{% else %}—{% endif %}</p>
+        <p><strong>Capsule IDs</strong>{% if launch.capsules %}{{ launch.capsules|join:", " }}{% else %}—{% endif %}</p>
+        <p><strong>Crew IDs</strong>{% if launch.crew %}{{ launch.crew|join:", " }}{% else %}—{% endif %}</p>
+        <p><strong>Ship IDs</strong>{% if launch.ships %}{{ launch.ships|join:", " }}{% else %}—{% endif %}</p>
+        <p><strong>Auto Update</strong>{{ launch.auto_update|yesno:"Yes,No,Unknown" }}</p>
+      </div>
+
+      <!-- Cores -->
       {% if launch.cores %}
-        <table border="1" cellpadding="6" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Core ID</th>
-              <th>Flight #</th>
-              <th>Gridfins</th>
-              <th>Legs</th>
-              <th>Reused</th>
-              <th>Landing Attempt</th>
-              <th>Landing Success</th>
-              <th>Landing Type</th>
-              <th>Landpad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for c in launch.cores %}
-              <tr>
-                <td>{{ c.core|default:"—" }}</td>
-                <td>{{ c.flight|default:"—" }}</td>
-                <td>{{ c.gridfins|yesno:"Yes,No,Unknown" }}</td>
-                <td>{{ c.legs|yesno:"Yes,No,Unknown" }}</td>
-                <td>{{ c.reused|yesno:"Yes,No,Unknown" }}</td>
-                <td>{{ c.landing_attempt|yesno:"Yes,No,Unknown" }}</td>
-                <td>
-                  {% if c.landing_attempt %}
-                    {{ c.landing_success|yesno:"Yes,No,Unknown" }}
-                  {% else %}
-                    —
-                  {% endif %}
-                </td>
-                <td>{{ c.landing_type|default:"—" }}</td>
-                <td>{{ c.landpad|default:"—" }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <details>
+        <summary>Core stages</summary>
+        <ul class="meta-list">
+        {% for c in launch.cores %}
+          <li>
+            <strong>Core:</strong> {{ c.core|default:"Unknown core" }}<br>
+            <strong>Flight number:</strong> {{ c.flight|default:"—" }}<br>
+            <strong>Grid fins:</strong> {{ c.gridfins|yesno:"Yes,No,Unknown" }}<br>
+            <strong>Landing legs:</strong> {{ c.legs|yesno:"Yes,No,Unknown" }}<br>
+            <strong>Previously flown:</strong> {{ c.reused|yesno:"Yes,No,Unknown" }}<br>
+            <strong>Landing attempted:</strong> {{ c.landing_attempt|yesno:"Yes,No,Unknown" }}<br>
+            <strong>Landing success:</strong>
+              {% if c.landing_attempt %}
+                {{ c.landing_success|yesno:"Yes,No,Unknown" }}
+              {% else %}
+                Not attempted
+              {% endif %}<br>
+            <strong>Landing type:</strong> {{ c.landing_type|default:"—" }}<br>
+            <strong>Landing pad:</strong> {{ c.landpad|default:"—" }}
+          </li>
+        {% endfor %}
+        </ul>
+      </details>
       {% endif %}
 
       <!-- Fairings -->
       {% if launch.fairings %}
-        <h3>Fairings</h3>
-        {% with f=launch.fairings %}
-          <ul>
-            <li><strong>Reused:</strong> {{ f.reused|yesno:"Yes,No,Unknown" }}</li>
-            <li><strong>Recovery Attempt:</strong> {{ f.recovery_attempt|yesno:"Yes,No,Unknown" }}</li>
-            <li><strong>Recovered:</strong> {{ f.recovered|yesno:"Yes,No,Unknown" }}</li>
-            {% if f.ships %}
-              <li><strong>Ships:</strong> {{ f.ships|join:", " }}</li>
-            {% endif %}
-          </ul>
-        {% endwith %}
+      {% with f=launch.fairings %}
+      <details>
+        <summary>Fairings</summary>
+        <ul class="meta-list">
+          <li><strong>Reused:</strong> {{ f.reused|yesno:"Yes,No,Unknown" }}</li>
+          <li><strong>Recovery Attempt:</strong> {{ f.recovery_attempt|yesno:"Yes,No,Unknown" }}</li>
+          <li><strong>Recovered:</strong> {{ f.recovered|yesno:"Yes,No,Unknown" }}</li>
+          {% if f.ships %}<li><strong>Ships:</strong> {{ f.ships|join:", " }}</li>{% endif %}
+        </ul>
+      </details>
+      {% endwith %}
       {% endif %}
 
-      <!-- Entities / IDs -->
-      <h3>Entities</h3>
-      <ul>
-        <li><strong>Launch ID:</strong> {{ launch.id|default:"—" }}</li>
-        <li><strong>Launchpad ID:</strong> {{ launch.launchpad|default:"—" }}</li>
-        <li><strong>Payload IDs:</strong> {% if launch.payloads %}{{ launch.payloads|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Capsule IDs:</strong> {% if launch.capsules %}{{ launch.capsules|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Crew IDs:</strong> {% if launch.crew %}{{ launch.crew|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Ship IDs:</strong> {% if launch.ships %}{{ launch.ships|join:", " }}{% else %}—{% endif %}</li>
-        <li><strong>Auto Update:</strong> {{ launch.auto_update|yesno:"Yes,No,Unknown" }}</li>
-      </ul>
+      <!-- Failures -->
+      {% if launch.failures %}
+      <details>
+        <summary>Failures</summary>
+        <ul class="meta-list">
+          {% for f in launch.failures %}
+          <li>
+            <strong>Time:</strong> {{ f.time|default:"—" }},
+            <strong>Altitude:</strong> {{ f.altitude|default:"—" }},
+            <strong>Reason:</strong> {{ f.reason|default:"—" }}
+          </li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
 
       <!-- Links & Media -->
       {% if launch.links %}
-        <h3>Links</h3>
-        {% with L=launch.links %}
-          <div class="patch">
-            {% if L.patch and L.patch.small %}
-              <img src="{{ L.patch.small }}" alt="Mission Patch Small" />
-            {% endif %}
-            {% if L.patch and L.patch.large %}
-              <a href="{{ L.patch.large }}" target="_blank" rel="noopener">Open large patch</a>
-            {% endif %}
-          </div>
-
-          <ul>
-            {% if L.presskit %}<li><a href="{{ L.presskit }}" target="_blank" rel="noopener">Press Kit</a></li>{% endif %}
-            {% if L.article %}<li><a href="{{ L.article }}" target="_blank" rel="noopener">Article</a></li>{% endif %}
-            {% if L.wikipedia %}<li><a href="{{ L.wikipedia }}" target="_blank" rel="noopener">Wikipedia</a></li>{% endif %}
-            {% if L.webcast %}<li><a href="{{ L.webcast }}" target="_blank" rel="noopener">Webcast</a></li>{% endif %}
-            {% if L.reddit %}
-              {% if L.reddit.campaign %}<li><a href="{{ L.reddit.campaign }}" target="_blank" rel="noopener">Reddit: Campaign</a></li>{% endif %}
-              {% if L.reddit.launch %}<li><a href="{{ L.reddit.launch }}" target="_blank" rel="noopener">Reddit: Launch</a></li>{% endif %}
-              {% if L.reddit.media %}<li><a href="{{ L.reddit.media }}" target="_blank" rel="noopener">Reddit: Media</a></li>{% endif %}
-              {% if L.reddit.recovery %}<li><a href="{{ L.reddit.recovery }}" target="_blank" rel="noopener">Reddit: Recovery</a></li>{% endif %}
-            {% endif %}
-          </ul>
-
-          {% if L.youtube_id %}
-            <div class="video">
-              <iframe width="560" height="315"
-                      src="https://www.youtube.com/embed/{{ L.youtube_id }}"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen>
-              </iframe>
-            </div>
+      {% if launch.links.patch.large or launch.links.patch.small or launch.links.presskit or launch.links.article or launch.links.wikipedia or launch.links.webcast or launch.links.reddit.campaign or launch.links.reddit.launch or launch.links.reddit.media or launch.links.reddit.recovery or launch.links.flickr.original %}
+      {% with L=launch.links %}
+      <details>
+        <summary>Links & media</summary>
+        <div>
+          {% if L.patch and L.patch.large %}
+            <a class="btn-link" href="{{ L.patch.large }}" target="_blank" rel="noopener">Open large patch</a>
           {% endif %}
-
-          {% if L.flickr and L.flickr.original %}
-            <h4>Photos</h4>
-            <div class="gallery">
-              {% for img in L.flickr.original|slice:":6" %}
-                <a href="{{ img }}" target="_blank" rel="noopener">
-                  <img src="{{ img }}" alt="Flickr Image {{ forloop.counter }}" style="max-height:120px" />
-                </a>
-              {% endfor %}
-            </div>
+          {% if L.presskit %}<a class="btn-link" href="{{ L.presskit }}" target="_blank" rel="noopener">Press Kit</a>{% endif %}
+          {% if L.article %}<a class="btn-link" href="{{ L.article }}" target="_blank" rel="noopener">Article</a>{% endif %}
+          {% if L.wikipedia %}<a class="btn-link" href="{{ L.wikipedia }}" target="_blank" rel="noopener">Wikipedia</a>{% endif %}
+          {% if L.webcast %}<a class="btn-link" href="{{ L.webcast }}" target="_blank" rel="noopener">Watch Webcast</a>{% endif %}
+          {% if L.reddit %}
+            {% if L.reddit.campaign %}<a class="btn-link" href="{{ L.reddit.campaign }}" target="_blank" rel="noopener">Reddit: Campaign</a>{% endif %}
+            {% if L.reddit.launch %}<a class="btn-link" href="{{ L.reddit.launch }}" target="_blank" rel="noopener">Reddit: Launch</a>{% endif %}
+            {% if L.reddit.media %}<a class="btn-link" href="{{ L.reddit.media }}" target="_blank" rel="noopener">Reddit: Media</a>{% endif %}
+            {% if L.reddit.recovery %}<a class="btn-link" href="{{ L.reddit.recovery }}" target="_blank" rel="noopener">Reddit: Recovery</a>{% endif %}
           {% endif %}
-        {% endwith %}
+        </div>
+
+        {% if L.flickr and L.flickr.original %}
+        <div class="gallery">
+          {% for img in L.flickr.original|slice:":3" %}
+          <a href="{{ img }}" target="_blank" rel="noopener">
+            <img src="{{ img }}" alt="Flickr Image {{ forloop.counter }}">
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </details>
+      {% endwith %}
       {% endif %}
-      <hr/>
-    </article>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p>No launch data available.</p>
   {% endfor %}
-</body>
+</div>
 {% endblock %}

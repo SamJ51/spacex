@@ -7,7 +7,7 @@ def home(request):
     return render(request, "home.html")
 
 def launch(request):
-    api_url = "https://api.spacexdata.com/v4/launches"
+    api_url = "https://api.spacexdata.com/v5/launches"
     launches = api_request(api_url)
     launches.reverse()
     return render(request, "launch.html", {"launches": launches})

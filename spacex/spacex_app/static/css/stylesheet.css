@@ -3,7 +3,6 @@ html {
   text-size-adjust: 100%;
 }
 
-/* ===== Base layout ===== */
 body {
   display: flex;
   margin: 0;
@@ -51,7 +50,6 @@ main {
   margin-left: 160px;
 }
 
-/* ===== Font ===== */
 p,
 h1,
 h2,
@@ -62,14 +60,12 @@ dd {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ===== Shared headings ===== */
 .heading {
   text-align: center;
   font-size: 40px;
   color: #111;
 }
 
-/* ===== Cards & grids ===== */
 .card {
   display: inline-block;
   padding: 30px;
@@ -95,7 +91,6 @@ dd {
   gap: 20px;
 }
 
-/* ===== Crew page ===== */
 img.portrait {
   width: 250px;
   height: 250px;
@@ -119,7 +114,6 @@ img.portrait {
   opacity: 50%;
 }
 
-/* ==== Key-value grid ==== */
 .kv {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -137,7 +131,6 @@ img.portrait {
   opacity: 0.7;
 }
 
-/* ===== Payload page ===== */
 .meta-list {
   list-style: none;
   padding-left: 0;
@@ -186,7 +179,6 @@ details .meta-list {
   margin-top: 6px;
 }
 
-/* ===== Launch page ===== */
 .gallery img {
   max-height: 120px;
 }
