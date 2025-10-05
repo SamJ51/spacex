@@ -2,24 +2,20 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .helper_functions import api_request
 import operator
+from .models import CrewMember, Payload, Dragon, Launch, LaunchCore, LaunchLinks, PatchLinks, RedditLinks, FlickrLinks
 
 def home(request):
     return render(request, "home.html")
 
 def launch(request):
-    api_url = "https://api.spacexdata.com/v5/launches"
-    launches = api_request(api_url)
-    launches.reverse()
+    launches = Launch.objects.all().order_by('-date_utc')
     return render(request, "launch.html", {"launches": launches})
 
-def crew(request):
-    api_url = "https://api.spacexdata.com/v4/crew"
-    crew_members = api_request(api_url)
-    crew_members.sort(key=operator.itemgetter("name"))
-    return render(request, "crew.html", {"crew_members": crew_members})
-
 def payload(request):
-    api_url = "https://api.spacexdata.com/v4/payloads"
-    payloads = api_request(api_url)
-    payloads.sort(key=operator.itemgetter("name"))
+    payloads = Payload.objects.all().order_by('name')
+    dragons = Dragon.objects.all()
     return render(request, "payload.html", {"payloads": payloads})
+
+def crew(request):
+    crew = CrewMember.objects.all().order_by('name')
+    return render(request, "crew.html", {'crew': crew})

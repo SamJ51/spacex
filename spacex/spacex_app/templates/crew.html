@@ -3,32 +3,32 @@
 {% block content %}
 <h1 class="heading">SpaceX Crew</h1>
 <div class="class-structure">
-    {% for m in crew_members %}
+    {% for c in crew %}
     <div class="card">
 
         <!-- Photo -->
-        {% if m.image %}
-        <img class="portrait" src="{{ m.image }}" alt="{{ m.name }} portrait" />
+        {% if c.image_url %}
+        <img class="portrait" src="{{ c.image_url }}" alt="{{ c.name }} portrait" />
         {% endif %}
 
         <!-- Card Text Content -->
         <div class="card-body">
-            <h2 class="card-title">{{ m.name|default:"Unnamed crew member" }}</h2>
+            <h2 class="card-title">{{ c.name|default:"Unnamed crew member" }}</h2>
 
             <!-- Wikipedia Link -->
-            {% if m.wikipedia %}
-            <a class="wiki-link" href="{{ m.wikipedia }}" target="_blank" rel="noopener">Wikipedia</a>
+            {% if c.wikipedia_url %}
+            <a class="wiki-link" href="{{ c.wikipedia_url }}" target="_blank" rel="noopener">Wikipedia</a>
             {% endif %}
 
             <!-- Agency & Status -->
-            <p><strong>Agency:</strong> {{ m.agency|default:"—" }}</p>
-            <p><strong>Status:</strong> {{ m.status|default:"—" }}</p>
+            <p><strong>Agency:</strong> {{ c.agency|default:"—" }}</p>
+            <p><strong>Status:</strong> {{ c.status|default:"—" }}</p>
 
             <!-- Entities / IDs -->
             <div class="kv">
-                <p><strong>Crew ID:</strong> {{ m.id|default:"—" }}</p>
+                <p><strong>Crew ID:</strong> {{ c.member_id|default:"—" }}</p>
                 <p><strong>Launch IDs:</strong>
-                    {% if m.launches %}{{ m.launches|join:", " }}{% else %}—{% endif %}
+                    {% if c.launches %}{{ c.launches|join:", " }}{% else %}—{% endif %}
                 </p>
             </div>
 

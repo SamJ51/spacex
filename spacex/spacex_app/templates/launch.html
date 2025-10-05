@@ -39,7 +39,7 @@
 
       <!-- Entities / IDs -->
       <div class="kv" aria-label="Entities / IDs">
-        <p><strong>Launch ID</strong>{{ launch.id|default:"—" }}</p>
+        <p><strong>Launch ID</strong>{{ launch.launch_id|default:"—" }}</p>
         <p><strong>Rocket ID</strong>{{ launch.rocket|default:"—" }}</p>
         <p><strong>Launchpad ID</strong>{{ launch.launchpad|default:"—" }}</p>
         <p><strong>Payload IDs</strong>{% if launch.payloads %}{{ launch.payloads|join:", " }}{% else %}—{% endif %}</p>
@@ -54,7 +54,7 @@
       <details>
         <summary>Core stages</summary>
         <ul class="meta-list">
-        {% for c in launch.cores %}
+        {% for c in launch.cores.all %}
           <li>
             <strong>Core:</strong> {{ c.core|default:"Unknown core" }}<br>
             <strong>Flight number:</strong> {{ c.flight|default:"—" }}<br>
