@@ -182,3 +182,21 @@ details .meta-list {
 .gallery img {
   max-height: 120px;
 }
+
+.search {
+  width: 45%;
+  padding: 12px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border: 1px solid whitesmoke;
+  border-radius: 8px;
+  font-size: 16px;
+  border-radius: 50px;
+  background-color: whitesmoke;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}

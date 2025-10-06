@@ -13,7 +13,6 @@ def launch(request):
 
 def payload(request):
     payloads = Payload.objects.all().order_by('name')
-    dragons = Dragon.objects.all()
     return render(request, "payload.html", {"payloads": payloads})
 
 def crew(request):

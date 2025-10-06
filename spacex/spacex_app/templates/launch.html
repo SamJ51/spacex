@@ -2,7 +2,11 @@
 
 {% block content %}
 <h1 class="heading">SpaceX Launches</h1>
-
+<div class="search-container">
+    <input class="search" type="text" name="search" id="query" placeholder="Search any attribute value">
+</div>
+{% load static %}
+<script src="{% static 'js/search.js' %}"></script>
 <div class="class-structure">
   {% for launch in launches %}
   <div class="card">

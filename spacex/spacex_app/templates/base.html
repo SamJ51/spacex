@@ -15,7 +15,7 @@
         <a href="{% url 'payload' %}" class="{% if request.resolver_match.url_name == 'payload' %}active{% endif %}">Payloads</a>
     </nav>
     <main>
-        {% block extra_css %}{% endblock %}{% block content %}{% endblock %}
+        {% block content %}{% endblock %}
     </main>
 </body>
 </html>
