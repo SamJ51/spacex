@@ -1,8 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from .helper_functions import api_request
-import operator
-from .models import CrewMember, Payload, Dragon, Launch, LaunchCore, LaunchLinks, PatchLinks, RedditLinks, FlickrLinks
+from .models import CrewMember, Payload, Launch
 
 def home(request):
     return render(request, "home.html")

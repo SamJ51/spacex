@@ -1,7 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<header>
+
+<div class="home">
     <h1 class="heading">Welcome to the SpaceX Dashboard!</h1>
-    <p></p>
-</header>
+    <div class="home-content">
+        <h2>The Project's Purpose</h2>
+        <p>The purpose of this project is to design and develop a Django-based web application that consumes and
+            displays structured data from the SpaceX public API.</p>
+        <p>This data includes key information regarding:</p>
+        <ul>
+            <li>Crew Members</li>
+            <li>Launches</li>
+            <li>Payloads</li>
+        </ul>
+        <h2>Main Features</h2>
+        <h3>Launches Page</h3>
+        <p>The Launches page contains all SpaceX launches with each
+            individual launch being represented as an individual card.</p>
+        <h3>Crew Page</h3>
+        <p>The Crew page contains all members of the SpaceX crew with each
+            individual
+            crew member being represented as a separate card.</p>
+        <h3>Payloads Page</h3>
+        <p>The Payloads page contains all of the payloads that have been sent
+            into
+            space by SpaceX. Each of these payloads is represented as an individual card.</p>
+        <h3>Search</h3>
+        <p>Search is available in the Launches, Payloads, and Crew pages. The search bar
+            will filter cards based on whether the search text is present as a
+            substring in the card.
+        <h3>Database Caching</h3>
+        <p>All SpaceX data is retrieved from the SQLite database rather than
+            from
+            the API directly. This increases the website's refresh speed.</p>
+        <h3>Expandable Card Sections</h3>
+        <p>Cards from the Payloads and Launches pages have expandable card
+            sections. This allows the user to have the choice of either keeping the card small, or expanding the card to
+            get additional information.</p>
+    </div>
+</div>
+
 {% endblock %}

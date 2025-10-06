@@ -5,7 +5,7 @@ def populate_crew():
     api_url = "https://api.spacexdata.com/v4/crew"
     crew_members = api_request(api_url)
     for p in crew_members:
-        member = CrewMember.objects.get_or_create(
+        CrewMember.objects.get_or_create(
         member_id=p["id"],
         defaults={
             "name": p["name"],
@@ -44,7 +44,7 @@ def populate_launch():
             wikipedia=links_data.get('wikipedia')
         )
 
-        launch_obj, created = Launch.objects.update_or_create(
+        launch_obj = Launch.objects.update_or_create(
             launch_id=l_data['id'],
             defaults={
                 'fairings': l_data.get('fairings'),

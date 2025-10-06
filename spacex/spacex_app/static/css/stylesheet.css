@@ -1,4 +1,4 @@
-html { 
+html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -189,14 +189,103 @@ details .meta-list {
   margin: 0 auto;
   box-sizing: border-box;
   border: 1px solid whitesmoke;
-  border-radius: 8px;
   font-size: 16px;
   border-radius: 50px;
   background-color: whitesmoke;
+  outline: none;
+}
+
+.search:hover {
+  border-color: grey;
+}
+
+.search:focus {
+  border-color: rgb(0, 221, 255);
+  box-shadow: 0 0 10px rgb(0, 221, 255, 0.3);
 }
 
 .search-container {
   display: flex;
   justify-content: center;
   margin: 20px 0;
+}
+
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3em 2em;
+  line-height: 1.6;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.home h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.home h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: rgb(1, 27, 64);
+  border-left: 4px solid #ff9500;
+  padding-left: 0.6rem;
+}
+
+.home h3 {
+  font-size: 1.4rem;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.home-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.home-content p {
+  margin-bottom: 0.8rem;
+}
+
+.home-content ul {
+  margin: 1rem 0 1rem 2rem;
+  padding: 0;
+}
+
+.home h1, .home h2, .home h3, .home-content p, .home-content li {
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding: 2em 1.5em;
+  }
+
+  .home h1 {
+    font-size: 2.2rem;
+  }
+
+  .home h2 {
+    font-size: 1.5rem;
+  }
+
+  .home h3 {
+    font-size: 1.2rem;
+  }
+
+  .home-content {
+    font-size: 1rem;
+  }
 }
