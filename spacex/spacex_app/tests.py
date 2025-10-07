@@ -47,8 +47,7 @@ class DragonModelTest(TestCase):
 
     def test_dragon_str(self):
         dragon = Dragon.objects.create(capsule="Dragon 2")
-        # Since Payload is not linked, it should return by ID
-        self.assertEqual(str(dragon), f"Dragon details (ID: {dragon.id})")
+        self.assertEqual(str(dragon), "Dragon Capsule Dragon 2")
 
 class PayloadModelTest(TestCase):
     def setUp(self):
@@ -69,9 +68,8 @@ class PayloadModelTest(TestCase):
         self.assertEqual(str(self.payload), "ISS Resupply")
 
     def test_dragon_str_with_payload(self):
-        # Now that the dragon is linked to a payload, the __str__ should reflect it
-        self.assertEqual(str(self.dragon), "Dragon details for Payload: ISS Resupply")
-
+        self.assertEqual(str(self.dragon), "Dragon Capsule Resupply Dragon")
+        
 
 class LinksModelsTest(TestCase):
     def test_create_patch_links(self):

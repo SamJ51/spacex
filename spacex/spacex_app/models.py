@@ -29,10 +29,7 @@ class Dragon(models.Model):
     land_landing = models.BooleanField(null=True, blank=True)
 
     def __str__(self):
-        try:
-            return f"Dragon details for Payload: {self.payload.name}"
-        except Payload.DoesNotExist:
-            return f"Dragon details (ID: {self.id})"
+        return f"Dragon Capsule {self.capsule}" if self.capsule else f"Dragon (ID: {self.id})"
 
 
 class Payload(models.Model):
