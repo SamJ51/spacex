@@ -72,3 +72,5 @@ Run `cp example.env .env`
 
 ### 4. Build and Run Docker Containers
 Run `docker compose up --build`
+
+### 5. View Website on `http://localhost:8000`
