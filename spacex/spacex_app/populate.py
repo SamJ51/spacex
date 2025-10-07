@@ -116,7 +116,7 @@ def populate_payload():
                     },
                 )
                 
-        Payload.objects.get_or_create(
+        Payload.objects.update_or_create(
             payload_id=p.get("id"),
             defaults={
                 "name": p.get("name"),

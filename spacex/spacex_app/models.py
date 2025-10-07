@@ -68,7 +68,7 @@ class Payload(models.Model):
     mean_anomaly = models.FloatField(null=True, blank=True)
 
     # Linked Dragon Object
-    dragon = models.OneToOneField(
+    dragon = models.ForeignKey(
         Dragon,
         on_delete=models.SET_NULL,
         null=True,
