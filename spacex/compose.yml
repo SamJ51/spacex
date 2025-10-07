@@ -2,15 +2,22 @@ services:
   django-web:
     build: .
     container_name: django-docker
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py shell -c 'from spacex_app.populate import populate_crew, populate_launch, populate_payload; populate_crew(); populate_launch(); populate_payload()' &&
+             python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+      - sqlite_data:/app/db_data
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DEBUG: ${DEBUG}
       DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
     env_file:
-      - .env 
+      - .env
+
+volumes:
+  sqlite_data:
